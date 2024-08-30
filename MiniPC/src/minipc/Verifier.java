@@ -184,13 +184,10 @@ public class Verifier {
         -la posicion debe tener como minimo n posiciones libres despues del indice
         siendo n el largo del la lista de instrucciones
     */
-    public static int escogerPosicion(int largo){
+    public static int escogerPosicion(int largo, int tamMemoriaOS, int tamMemoria){
         Random rand = new Random();
         int posicion = 0;
-        if(largo == 90) posicion = 10;
-        else{
-            posicion = rand.nextInt(10, 100-largo);
-        }
+        posicion = rand.nextInt(tamMemoriaOS, tamMemoria-largo);
         return posicion;
     }
     
