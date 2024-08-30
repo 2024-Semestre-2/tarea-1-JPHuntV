@@ -48,7 +48,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="disTamMemoriaOs" min="-2" pref="50" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jProgressBar1" min="-2" pref="215" max="-2" attributes="0"/>
+                          <Component id="distMemoria" min="-2" pref="215" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="labMemory2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -100,7 +100,7 @@
                       <Component id="labMemory" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="labMemory1" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="disTamMemoriaOs" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jProgressBar1" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="distMemoria" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="labMemory2" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="disTamMemoriaUs" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="btnConfigMem" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -607,7 +607,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfigMemActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JProgressBar" name="jProgressBar1">
+        <Component class="javax.swing.JProgressBar" name="distMemoria">
           <Properties>
             <Property name="value" type="int" value="20"/>
           </Properties>

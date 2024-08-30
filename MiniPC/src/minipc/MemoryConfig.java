@@ -5,6 +5,7 @@
 package minipc;
 
 import java.io.Console;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,8 +43,6 @@ public class MemoryConfig extends javax.swing.JFrame {
         inputTamMemOS = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("jLabel1");
 
@@ -163,8 +162,45 @@ public class MemoryConfig extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        miPc.setTamMemoria(Integer.parseInt(inputTamMemoria.getText()));
-        miPc.setTamMemoriaOS(Integer.parseInt(inputTamMemOS.getText()));
+        String mensajeError = "";
+        if (inputTamMemoria.getText().isEmpty() || inputTamMemOS.getText().isEmpty()) {
+            System.out.println("No se han ingresado valores");
+            mensajeError = "No se han ingresado valores";
+
+        }
+        if (Integer.parseInt(inputTamMemOS.getText()) >= Integer.parseInt(inputTamMemoria.getText())) {
+            System.out.println("El tamaño de la memoria del sistema operativo no puede ser mayor o igual al de la memoria");
+            mensajeError = "El tamaño de la memoria del sistema operativo no puede ser mayor o igual al de la memoria";
+
+        }
+        if (!Verifier.esEntero(inputTamMemoria.getText()) || !Verifier.esEntero(inputTamMemOS.getText())) {
+            System.out.println("Los valores ingresados no son enteros");
+            mensajeError = "Los valores ingresados no son enteros";
+
+        }
+        if (Integer.parseInt(inputTamMemOS.getText()) < 20) {
+            System.out.println("El tamaño de la memoria del sistema operativo no puede ser menor a 20");
+            mensajeError = "El tamaño de la memoria del sistema operativo no puede ser menor a 20";
+            inputTamMemOS.setText("20");
+
+
+            
+        }
+        if (Integer.parseInt(inputTamMemoria.getText()) < 50) {
+            System.out.println("El tamaño de la memoria no puede ser menor a 50");
+            mensajeError = "El tamaño de la memoria no puede ser menor a 50";
+            inputTamMemoria.setText("50");
+
+        }
+        
+        if (!mensajeError.isEmpty()) {
+            JOptionPane.showMessageDialog(null, mensajeError);
+            return;
+        }else{
+            miPc.setTamMemoria(Integer.parseInt(inputTamMemoria.getText()));
+            miPc.setTamMemoriaOS(Integer.parseInt(inputTamMemOS.getText()));
+            this.dispose();
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

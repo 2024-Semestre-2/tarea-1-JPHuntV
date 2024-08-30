@@ -73,7 +73,7 @@ public class MiniPC extends javax.swing.JFrame {
         selectedFile = new javax.swing.JTextField();
         labFile = new javax.swing.JLabel();
         btnConfigMem = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        distMemoria = new javax.swing.JProgressBar();
         labMemory1 = new javax.swing.JLabel();
         labMemory2 = new javax.swing.JLabel();
         disTamMemoriaOs = new javax.swing.JTextField();
@@ -407,7 +407,7 @@ public class MiniPC extends javax.swing.JFrame {
             }
         });
 
-        jProgressBar1.setValue(20);
+        distMemoria.setValue(20);
 
         labMemory1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labMemory1.setText("O.S");
@@ -445,7 +445,7 @@ public class MiniPC extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(disTamMemoriaOs, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(distMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labMemory2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -486,7 +486,7 @@ public class MiniPC extends javax.swing.JFrame {
                     .addComponent(labMemory)
                     .addComponent(labMemory1)
                     .addComponent(disTamMemoriaOs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(distMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labMemory2)
                     .addComponent(disTamMemoriaUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConfigMem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -583,24 +583,7 @@ public class MiniPC extends javax.swing.JFrame {
         }
     }
     
-    
-    //Resetea el programa para una nueva ejecucion
-    private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
-        for (int i = 0; i < 100; i++) {
-            tablaMemoria.setValueAt(null, i, 1);
-            tablaMemoria.setValueAt(null, i, 2);
-        }
-        pcInput.setText("");
-        acInput.setText("");
-        irInput.setText("");
-        axInput.setText("");
-        bxInput.setText("");
-        cxInput.setText("");
-        dxInput.setText("");
-        selectedFile.setText("");
-        
-    }   
+     
     private void axInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_axInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_axInputActionPerformed
@@ -628,7 +611,7 @@ public class MiniPC extends javax.swing.JFrame {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < tamMemoria; i++) {
             tablaMemoria.setValueAt(null, i, 1);
             tablaMemoria.setValueAt(null, i, 2);
         }
@@ -640,6 +623,8 @@ public class MiniPC extends javax.swing.JFrame {
         cxInput.setText("");
         dxInput.setText("");
         selectedFile.setText("");
+        btnConfigMem.enable();
+        btnRun.enable();
 
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -687,6 +672,8 @@ public class MiniPC extends javax.swing.JFrame {
             //tablaMemoria.addRowSelectionInterval(posIni, posIni);
             pcInput.setText(Integer.toString(posIni));
             tablaMemoria.scrollRectToVisible(new Rectangle(tablaMemoria.getCellRect(posIni+9, 0, true)));
+            btnConfigMem.disable();
+            btnRun.disable();
         }
         miPC.setInstruccionesASM(instruccionesASM);
         miPC.setInstruccionesbin(instruccionesbin);
@@ -720,14 +707,35 @@ public class MiniPC extends javax.swing.JFrame {
 
     public void setTamMemoriaOS(int tamMemoriaOS) {
         this.tamMemoriaOS = tamMemoriaOS;
-        jProgressBar1.setValue(tamMemoriaOS);
+        distMemoria.setValue(tamMemoriaOS);
         disTamMemoriaOs.setText(Integer.toString(tamMemoriaOS));
         disTamMemoriaUs.setText(Integer.toString(tamMemoria-tamMemoriaOS));
     }
 
     public void setTamMemoria(int tamMemoria) {
         this.tamMemoria = tamMemoria;
-        jProgressBar1.setMaximum(tamMemoria);
+        distMemoria.setMaximum(tamMemoria);
+        espaciosMemoria = new ArrayList<>(tamMemoria);
+        tablaMemoria.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [tamMemoria][3],
+            new String [] {
+                "", "asm", "bin"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        disTamMemoriaUs.setText(Integer.toString(tamMemoria-tamMemoriaOS));
+      
+        for (int i = 0; i < tamMemoria; i++) {
+            tablaMemoria.setValueAt(i, i, 0);
+        }
+
+
 
     }
     
@@ -780,6 +788,7 @@ public class MiniPC extends javax.swing.JFrame {
     private javax.swing.JTextField cxInput;
     private javax.swing.JTextField disTamMemoriaOs;
     private javax.swing.JTextField disTamMemoriaUs;
+    private javax.swing.JProgressBar distMemoria;
     private javax.swing.JTextField dxInput;
     private javax.swing.JPanel frameBCP;
     private javax.swing.JPanel frameMemory;
@@ -792,7 +801,6 @@ public class MiniPC extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JLabel labBCP;
     private javax.swing.JLabel labFile;
     private javax.swing.JLabel labMemory;
