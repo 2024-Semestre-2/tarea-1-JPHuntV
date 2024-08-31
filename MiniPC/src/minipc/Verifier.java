@@ -23,7 +23,6 @@ import java.util.Random;
  * @author jeanp
  */
 public class Verifier {
-    
     static final String[] REGISTROSVALIDOS = {"AX", "BX", "CX", "DX"};
     static final String[] OPERADORESVALIDO = {"MOV", "LOAD", "ADD", "SUB", "STORE"}; 
     static Dictionary<String, String> binarios;
@@ -43,16 +42,19 @@ public class Verifier {
         valida que el archvo con la ruta señalada cumpla con las caracteristicas
         del lenguaje asm
     */
-    public static ArrayList<String[]> validarArchivo(String nombre) throws IOException{
+    public static ArrayList<String[]> validarArchivo(String nombre, MiniPC miniPC) throws IOException{
+        int tamMemoria = miniPC.getTamMemoria();
         ArrayList<String[]> lista = convertirArchivoLista(nombre);
-        if(lista!= null && validarLista(lista)){
+        String mensaje = validarLista(lista, tamMemoria);
+        boolean valido = mensaje == "Validación exitosa.";
+        if(lista!= null && valido){
             int tamanioLista =  Arrays.asList(lista.toArray()).size();
-            if(tamanioLista > 90){
-                MiniPC.mostrarError("El archivo no puede exceder las 90 instrucciones");
+            if(tamanioLista > tamMemoria){
+                MiniPC.mostrarError("El archivo excede el tamaño de la memoria");
                 return null;
             }
         }else{
-            MiniPC.mostrarError("El archivo seleccionado no es valido");
+            MiniPC.mostrarError(mensaje);
             return null;
         }
         return lista;
@@ -63,23 +65,30 @@ public class Verifier {
         valida que todos los elementos de la lista de instrucciones
         pertenescan a la gramatica asm
     */
-    public static boolean validarLista(ArrayList<String[]> lista){
-        int tamanioLista = Arrays.asList(lista).size();
-        if(tamanioLista>90 || tamanioLista<1) return false;
-        for(String [] str : lista){
-            boolean operadorValido = (Arrays.asList(OPERADORESVALIDO).contains(str[0]));
-            boolean registroValido = (Arrays.asList(REGISTROSVALIDOS).contains(str[1]));
+    public static String validarLista(ArrayList<String[]> lista, int tamMemoria) {
+        int tamanioLista = lista.size();
+        if (tamanioLista > tamMemoria) return "Error: La cantidad de instrucciones excede el tamaño de la memoria.";
+        if (tamanioLista < 1) return "Error: La cantidad de instrucciones es menor a 1.";
+    
+        for (String[] str : lista) {
+            String instruccion = Arrays.toString(str);
+            instruccion = instruccion.substring(1, instruccion.length() - 1);
+            boolean operadorValido = Arrays.asList(OPERADORESVALIDO).contains(str[0]);
+            boolean registroValido = Arrays.asList(REGISTROSVALIDOS).contains(str[1]);
             boolean esEntero = true;
-            if(str.length == 3){
+    
+            if (str.length == 3) {
                 esEntero = esEntero(str[2]);
-                if(Integer.parseInt(str[2])>127) return false;
+                if (!esEntero) return "Error: El valor debe ser un entero. \n" + instruccion;
+                if (Integer.parseInt(str[2]) > 127) return "Error: El valor es mayor a 127. \n" +instruccion;
             }
-            if(!(operadorValido && registroValido && esEntero )){
-                return false;
-            }
-            
+    
+            if (!operadorValido) return "Error: Operador inválido. \n" + instruccion;
+            if (!registroValido) return "Error: Registro inválido. \n" + instruccion;
+            if (!esEntero) return "Error: El tercer elemento no es un entero válido. \n" +instruccion;
         }
-        return true;
+    
+        return "Validación exitosa.";
     }
     
     /*

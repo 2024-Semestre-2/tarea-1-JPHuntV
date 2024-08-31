@@ -93,7 +93,11 @@ public class PC {
     public void ejecutarSub(String registro) {
         int valorAC = registros.get("AC").getValor();
         int valorReg = registros.get(registro).getValor();
+        if (valorReg < 0) {
+            valorReg = valorReg * -1;
+        }
         int nuevoValor = valorAC - valorReg;
+        
         registros.get("AC").setValor(nuevoValor);
     }
     
@@ -106,5 +110,9 @@ public class PC {
         registros.get(registro).setValor(valorAC);
     }
     
-    
+    public void limpiarRegistros(){
+        registros.get("AC").setValor(0);
+        registros.get("PC").setValor(0);
+        registros.get("IR").setValor(0);
+    }
 }

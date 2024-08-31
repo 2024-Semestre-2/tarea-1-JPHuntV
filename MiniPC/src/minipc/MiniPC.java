@@ -34,6 +34,7 @@ public class MiniPC extends javax.swing.JFrame {
      */
     public MiniPC() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -622,6 +623,7 @@ public class MiniPC extends javax.swing.JFrame {
         bxInput.setText("");
         cxInput.setText("");
         dxInput.setText("");
+        miPC.limpiarRegistros();
         selectedFile.setText("");
         btnConfigMem.enable();
         btnRun.enable();
@@ -637,7 +639,7 @@ public class MiniPC extends javax.swing.JFrame {
         selectedFile.setText(nombreArchivo);
 
         try {
-            miPC.setInstruccionesASM(Verifier.validarArchivo(nombreArchivo));
+            miPC.setInstruccionesASM(Verifier.validarArchivo(nombreArchivo, this));
             if(miPC.getInstruccionesASM() == null){
                 archivoValido = true;
             }
