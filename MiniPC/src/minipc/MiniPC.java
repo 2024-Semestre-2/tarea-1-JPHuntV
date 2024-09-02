@@ -196,7 +196,7 @@ public class MiniPC extends javax.swing.JFrame {
         );
 
         labBCP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        labBCP.setText("Procesador");
+        labBCP.setText("BCP");
 
         labMemory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labMemory.setText("Memoria");
@@ -471,7 +471,7 @@ public class MiniPC extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labBCP)
-                        .addGap(126, 126, 126))))
+                        .addGap(150, 150, 150))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -625,8 +625,8 @@ public class MiniPC extends javax.swing.JFrame {
         dxInput.setText("");
         miPC.limpiarRegistros();
         selectedFile.setText("");
-        btnConfigMem.enable();
-        btnRun.enable();
+        btnConfigMem.setEnabled(true);
+        btnRun.setEnabled(true);
 
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -674,8 +674,8 @@ public class MiniPC extends javax.swing.JFrame {
             //tablaMemoria.addRowSelectionInterval(posIni, posIni);
             pcInput.setText(Integer.toString(posIni));
             tablaMemoria.scrollRectToVisible(new Rectangle(tablaMemoria.getCellRect(posIni+9, 0, true)));
-            btnConfigMem.disable();
-            btnRun.disable();
+            btnConfigMem.setEnabled(false);
+            btnRun.setEnabled(false);
         }
         miPC.setInstruccionesASM(instruccionesASM);
         miPC.setInstruccionesbin(instruccionesbin);
@@ -736,6 +736,8 @@ public class MiniPC extends javax.swing.JFrame {
         for (int i = 0; i < tamMemoria; i++) {
             tablaMemoria.setValueAt(i, i, 0);
         }
+
+        
 
 
 

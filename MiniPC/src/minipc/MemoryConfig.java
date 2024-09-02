@@ -56,6 +56,12 @@ public class MemoryConfig extends javax.swing.JFrame {
             }
         });
 
+        inputTamMemOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputTamMemOSActionPerformed(evt);
+            }
+        });
+
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,47 +152,71 @@ public class MemoryConfig extends javax.swing.JFrame {
         if (inputTamMemoria.getText().isEmpty() || inputTamMemOS.getText().isEmpty()) {
             System.out.println("No se han ingresado valores");
             mensajeError = "No se han ingresado valores";
-
-        }
-        if (Integer.parseInt(inputTamMemOS.getText()) >= Integer.parseInt(inputTamMemoria.getText())) {
-            System.out.println("El tamaño de la memoria del sistema operativo no puede ser mayor o igual al de la memoria");
-            mensajeError = "El tamaño de la memoria del sistema operativo no puede ser mayor o igual al de la memoria";
+            JOptionPane.showMessageDialog(null, mensajeError);
+            return;
 
         }
         if (!Verifier.esEntero(inputTamMemoria.getText()) || !Verifier.esEntero(inputTamMemOS.getText())) {
             System.out.println("Los valores ingresados no son enteros");
             mensajeError = "Los valores ingresados no son enteros";
+            JOptionPane.showMessageDialog(null, mensajeError);
+            return;
+
+        }
+        if (Integer.parseInt(inputTamMemOS.getText()) >= Integer.parseInt(inputTamMemoria.getText())) {
+            System.out.println("El tamaño de la memoria del sistema operativo no puede ser mayor o igual al de la memoria");
+            mensajeError = "El tamaño de la memoria del sistema operativo no puede ser mayor o igual al de la memoria";
+            JOptionPane.showMessageDialog(null, mensajeError);
+            return;
 
         }
         if (Integer.parseInt(inputTamMemOS.getText()) < 20) {
             System.out.println("El tamaño de la memoria del sistema operativo no puede ser menor a 20");
             mensajeError = "El tamaño de la memoria del sistema operativo no puede ser menor a 20";
             inputTamMemOS.setText("20");
-
-
-            
+            JOptionPane.showMessageDialog(null, mensajeError);
+            return;            
         }
         if (Integer.parseInt(inputTamMemoria.getText()) < 50) {
             System.out.println("El tamaño de la memoria no puede ser menor a 50");
             mensajeError = "El tamaño de la memoria no puede ser menor a 50";
             inputTamMemoria.setText("50");
+            JOptionPane.showMessageDialog(null, mensajeError);
+            return;
 
         }
         
-        if (!mensajeError.isEmpty()) {
-            JOptionPane.showMessageDialog(null, mensajeError);
-            return;
-        }else{
+        
             miPc.setTamMemoria(Integer.parseInt(inputTamMemoria.getText()));
             miPc.setTamMemoriaOS(Integer.parseInt(inputTamMemOS.getText()));
             this.dispose();
-        }
+        
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void inputTamMemOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTamMemOSActionPerformed
+        // TODO add your handling code here:
+        if (inputTamMemOS.getText().isEmpty()) {
+            System.out.println("No se ha ingresado un valor");
+            return;
+        }
+        if (!Verifier.esEntero(inputTamMemOS.getText())) {
+            System.out.println("El valor ingresado no es un entero");
+            return;
+        }
+        String tamanioMemoriaOS = inputTamMemOS.getText();
+        if(Integer.parseInt(tamanioMemoriaOS) >= 20){
+            System.out.println(tamanioMemoriaOS);
+            inputTamMemoria.setText(Integer.toString(miPc.getTamMemoria()));
+        }
+        else{
+            System.out.println("La memoria no puede ser menor a 20");
+        }
+    }//GEN-LAST:event_inputTamMemOSActionPerformed
 
 
 

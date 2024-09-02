@@ -44,6 +44,8 @@ public class Verifier {
     */
     public static ArrayList<String[]> validarArchivo(String nombre, MiniPC miniPC) throws IOException{
         int tamMemoria = miniPC.getTamMemoria();
+        System.err.println(tamMemoria);
+        System.err.println(nombre);
         ArrayList<String[]> lista = convertirArchivoLista(nombre);
         String mensaje = validarLista(lista, tamMemoria);
         boolean valido = mensaje == "Validación exitosa.";
@@ -67,6 +69,7 @@ public class Verifier {
     */
     public static String validarLista(ArrayList<String[]> lista, int tamMemoria) {
         int tamanioLista = lista.size();
+        System.err.println(tamanioLista);
         if (tamanioLista > tamMemoria) return "Error: La cantidad de instrucciones excede el tamaño de la memoria.";
         if (tamanioLista < 1) return "Error: La cantidad de instrucciones es menor a 1.";
     
